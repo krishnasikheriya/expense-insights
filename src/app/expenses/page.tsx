@@ -22,6 +22,7 @@ import {
 import { useCategories } from "@/hooks/use-categories";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 export default function ExpensesPage() {
   // 1. Initialize date range state (defaults to current month)
@@ -78,15 +79,17 @@ export default function ExpensesPage() {
       {/* Expense Creation Form */}
       <form
         onSubmit={handleCreate}
-        className="grid grid-cols-1 md:grid-cols-5 gap-4 bg-slate-50 p-4 rounded-md border"
+        className="flex flex-col md:flex-row items-center gap-4 bg-slate-50 p-4 rounded-md border"
       >
         <Input
-          placeholder="Description (e.g. Groceries)"
+          className="flex-1 min-w-[120px] w-full"
+          placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
         />
         <Input
+          className="w-full md:w-24 lg:w-28"
           type="number"
           step="0.01"
           placeholder="Amount"
@@ -98,7 +101,7 @@ export default function ExpensesPage() {
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           required
-          className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          className="w-full md:w-36 lg:w-48 flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
         >
           <option value="" disabled>
             Select Category
@@ -110,12 +113,13 @@ export default function ExpensesPage() {
           ))}
         </select>
         <Input
+          className="w-full md:w-36 lg:w-40"
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
           required
         />
-        <Button type="submit" disabled={createExpense.isPending}>
+        <Button type="submit" disabled={createExpense.isPending} className="w-full md:w-auto">
           Add Expense
         </Button>
       </form>
@@ -135,8 +139,8 @@ export default function ExpensesPage() {
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={4} className="text-center">
-                  Loading...
+                <TableCell colSpan={5} className="text-center py-8">
+                  <Loader2 className="h-6 w-6 animate-spin mx-auto text-muted-foreground" />
                 </TableCell>
               </TableRow>
             ) : expenses?.length === 0 ? (

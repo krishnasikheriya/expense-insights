@@ -1,5 +1,8 @@
 // src/middleware.ts
-import { auth } from "@/auth"
+import NextAuth from "next-auth"
+import { authConfig } from "./auth.config"
+
+const { auth } = NextAuth(authConfig)
 
 // TODO: Implement the middleware logic
 // Hint: You can use `export default auth((req) => { ... })`

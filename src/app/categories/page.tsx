@@ -4,6 +4,7 @@ import { useCategories, useCreateCategory, useDeleteCategory } from "@/hooks/use
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 export default function CategoriesPage() {
   const { data: categories, isLoading } = useCategories();
@@ -24,7 +25,11 @@ export default function CategoriesPage() {
     );
   };
 
-  if (isLoading) return <div>Loading categories...</div>;
+  if (isLoading) return (
+    <div className="flex justify-center p-12">
+      <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+    </div>
+  );
 
   return (
     <div className="p-8 max-w-2xl mx-auto">

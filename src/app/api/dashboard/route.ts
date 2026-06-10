@@ -25,25 +25,59 @@ export async function GET(req: Request) {
 
     if (startDate && endDate) {
       // TODO: Add date filtering to matchStage
-      // matchStage.date = { ... }
+      matchStage.date = {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate)
+      };
     }
 
     // TODO: Perform the MongoDB Aggregation Pipeline
     const aggregatedData = await Expense.aggregate([
       { $match: matchStage },
       // TODO: Add a $group stage to sum the `amount` by `category`
-      // { $group: { _id: "$category", totalAmount: { $sum: "$amount" } } },
+      { $group: { _id: "$category", totalAmount: { $sum: "$amount" } } },
       
       // TODO: Use a $lookup stage to join the Category collection so we can get the category name and color
       // Hint: from: "categories", localField: "_id", foreignField: "_id", as: "categoryDetails"
-      
+      {
+        $lookup: {
+          from : "categories",
+          localField: "_id",
+          foreignField: "_id",
+          as: "categoryDetails"
+        }
+      },
       // TODO: $unwind the categoryDetails array so it becomes an object instead of an array
-      
+      { $unwind: "$categoryDetails"},
       // TODO: Add a $project stage to format the final output
       // e.g., { _id: 0, categoryName: "$categoryDetails.name", color: "$categoryDetails.color", totalAmount: 1 }
+      {
+        $project: {
+          _id: 0,
+          categoryName: "$categoryDetails.name",
+          color: "$categoryDetails.color",
+          totalAmount: 1
+        }
+      }
     ]);
 
-    return NextResponse.json([]); // Replace this empty array with aggregatedData
+    const summaryMetrics = await Expense.aggregate([
+      { $match: matchStage },
+      {
+        $group: {
+          _id: null,
+          totalSpend: { $sum: "$amount" },
+          average: { $avg: "$amount" },
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+
+    // We now return an object containing BOTH the chart data and the summary metrics!
+    return NextResponse.json({
+      chartData: aggregatedData,
+      summary: summaryMetrics[0] || { totalSpend: 0, count: 0, average: 0 }
+    }); 
   } catch (error) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }

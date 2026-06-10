@@ -9,12 +9,13 @@ export function useDashboard(dateRange: DateRange | undefined) {
       // TODO: Build the URL with searchParams like you did in use-expenses.ts
       let url = "/api/dashboard";
       
-      // if (dateRange?.from && dateRange?.to) { ... }
+      if (dateRange?.from && dateRange?.to) {
+        url += `?startDate=${dateRange.from.toISOString()}&endDate=${dateRange.to.toISOString()}`
+      }
       
-      // const res = await fetch(url);
-      // return res.json();
-      
-      return []; // Replace this with the actual fetch
+      const res = await fetch(url);
+      if(!res.ok) throw new Error("Failed to fetch dashboard data");
+      return res.json();
     },
   });
 }
