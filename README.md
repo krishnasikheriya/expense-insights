@@ -26,7 +26,7 @@ graph TD
 
 - **Framework**: Next.js (App Router)
 - **Styling**: Tailwind CSS, Shadcn UI
-- **State Management**: TanStack React Query
+- **State Management**: TanStack React Query 
 - **Database**: MongoDB with Mongoose
 - **Authentication**: Auth.js (NextAuth v5)
 - **Charts**: Recharts
