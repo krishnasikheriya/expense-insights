@@ -154,7 +154,7 @@ export default function ExpensesPage() {
                 <TableRow key={expense._id}>
                   {/* TODO: Render expense data correctly */}
                   <TableCell>
-                    {new Date(expense.date).toLocaleDateString()}
+                    {format(new Date(expense.date), "LLL dd, y")}
                   </TableCell>
                   <TableCell>{expense.description}</TableCell>
                   {/* Note: since we populated the category, expense.category is an object! */}

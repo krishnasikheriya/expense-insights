@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
-import { startOfMonth, endOfMonth } from "date-fns";
+import { startOfMonth, endOfMonth, format } from "date-fns";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
@@ -85,7 +85,7 @@ export default function DashboardPage() {
           <CardTitle>Expenses by Category</CardTitle>
           <CardDescription>
             {dateRange?.from && dateRange.to
-              ? `${dateRange.from.toLocaleDateString()} - ${dateRange.to.toLocaleDateString()}`
+              ? `${format(dateRange.from, "LLL dd, y")} - ${format(dateRange.to, "LLL dd, y")}`
               : "Select a date range"}
           </CardDescription>
         </CardHeader>
