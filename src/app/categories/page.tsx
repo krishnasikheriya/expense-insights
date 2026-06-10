@@ -14,6 +14,14 @@ export default function CategoriesPage() {
   const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: Call createCategory.mutate() with the name, then clear the input field
+    createCategory.mutate(
+      { name },
+      { 
+        onSuccess: () => {
+          setName("");
+        },
+      }
+    );
   };
 
   if (isLoading) return <div>Loading categories...</div>;
@@ -41,7 +49,7 @@ export default function CategoriesPage() {
             <Button 
               variant="destructive" 
               onClick={() => {
-                // TODO: Call deleteCategory.mutate(cat._id)
+                deleteCategory.mutate(cat._id)
               }}
               disabled={deleteCategory.isPending}
             >

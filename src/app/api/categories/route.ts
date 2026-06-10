@@ -11,14 +11,19 @@ export async function GET(req: Request) {
     }
 
     await dbConnect();
-    
+
     // TODO: Fetch the categories that belong to the current user.
     // Hint: Use `Category.find({ user: session.user.id })`
-    // const categories = ...
-    
-    return NextResponse.json([]); // Replace this array with the categories!
+    const categories = await Category.find({ user: session.user.id }).sort({
+      createdAt: -1,
+    });
+
+    return NextResponse.json(categories);
   } catch (error) {
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 },
+    );
   }
 }
 
@@ -34,10 +39,16 @@ export async function POST(req: Request) {
 
     // TODO: Create a new category using the Mongoose model.
     // Make sure to set the `user` field to `session.user.id`.
-    // const newCategory = await Category.create({ ...body, user: session.user.id });
+    const newCategory = await Category.create({
+      ...body,
+      user: session.user.id,
+    });
 
-    return NextResponse.json({ message: "Not implemented yet" }, { status: 201 }); // Replace this
+    return NextResponse.json(newCategory, { status: 201 }); // Replace this
   } catch (error) {
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 },
+    );
   }
 }

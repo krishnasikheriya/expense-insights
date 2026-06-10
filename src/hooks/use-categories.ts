@@ -5,7 +5,9 @@ export function useCategories() {
     queryKey: ["categories"],
     // TODO: provide the queryFn to fetch from "/api/categories"
     queryFn: async () => { 
-        return []; 
+        const res = await fetch("/api/categories");
+        if(!res.ok) throw new Error("Failed to fetch categories");
+        return res.json(); 
     }, 
   });
 }
@@ -16,11 +18,18 @@ export function useCreateCategory() {
   return useMutation({
     // TODO: Provide the mutationFn that POSTs to "/api/categories"
     mutationFn: async (newCategory: { name: string; color?: string }) => {
-      // ...
+      const res = await fetch("/api/categories", {
+        method: "POST",
+        headers: { 'Content-Type': "application/json"},
+        body: JSON.stringify(newCategory),
+      })
+
+      if (!res.ok) throw new Error("Failed to create category");
+      return res.json();
     },
     onSuccess: () => {
       // TODO: Invalidate the "categories" query to trigger a refetch
-      // queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
   });
 }
@@ -31,10 +40,15 @@ export function useDeleteCategory() {
   return useMutation({
     // TODO: Provide mutationFn that sends a DELETE request to `/api/categories/${id}`
     mutationFn: async (id: string) => {
-      // ...
+      const res = await fetch(`/api/categories/${id}`, {
+        method: "DELETE",
+      });
+      if(!res.ok) throw new Error("Failed to delete category");
+      return res.json();
     },
     onSuccess: () => {
       // TODO: Invalidate the "categories" query
+      queryClient.invalidateQueries({ queryKey: ["categories"]})
     },
   });
 }
