@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Expense Insights
+
+Expense Insights is a comprehensive web application designed to help users track their daily expenses, manage custom spending categories, and visualize their financial data over custom date ranges.
+
+## Features
+
+- **Dashboard Analytics**: Visualize spending patterns using interactive charts powered by Recharts.
+- **Expense Management**: Add, view, and delete expenses with categorized tags.
+- **Custom Categories**: Create and manage personalized expense categories.
+- **Authentication**: Secure login system integrated with GitHub OAuth.
+- **Date Filtering**: Filter expenses and aggregate dashboard metrics by custom date ranges.
+
+## Architecture
+
+The application is built with a modern web stack, utilizing Next.js for both the frontend and backend API routes, and MongoDB for persistent data storage.
+
+```mermaid
+graph TD
+    A[Client Application] -->|TanStack Query| B(Next.js App Router)
+    B -->|API Routes| C{Backend Controllers}
+    C -->|Mongoose| D[(MongoDB)]
+    B -->|Auth.js| E[GitHub OAuth Provider]
+```
+
+## Technology Stack
+
+- **Framework**: Next.js (App Router)
+- **Styling**: Tailwind CSS, Shadcn UI
+- **State Management**: TanStack React Query
+- **Database**: MongoDB with Mongoose
+- **Authentication**: Auth.js (NextAuth v5)
+- **Charts**: Recharts
 
 ## Getting Started
 
-First, run the development server:
+Follow these instructions to set up the project locally.
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- A MongoDB Atlas cluster or local instance
+- A GitHub OAuth Application
+
+### Installation
+
+1. Clone the repository and install dependencies:
+
+```bash
+npm install
+```
+
+2. Create a `.env.local` file in the root directory and add the following environment variables:
+
+```env
+MONGODB_URI=your_mongodb_connection_string
+AUTH_SECRET=your_generated_auth_secret
+AUTH_GITHUB_ID=your_github_oauth_client_id
+AUTH_GITHUB_SECRET=your_github_oauth_client_secret
+```
+
+3. Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
